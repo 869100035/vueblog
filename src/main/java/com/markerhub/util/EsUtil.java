@@ -67,7 +67,7 @@ public class EsUtil {
         }catch (Exception e){
 
         }finally {
-            //restHighLevelClient.close();
+
         }return resList;
     }
 }
