@@ -8,6 +8,6 @@ public class TestController {
 
     @GetMapping("/tt")
     public String test(){
-        return "hello linux";
+        return "hello linux jenkins";
     }
 }
