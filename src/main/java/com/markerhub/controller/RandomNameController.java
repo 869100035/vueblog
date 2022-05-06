@@ -58,7 +58,7 @@ public class RandomNameController {
         Set set = redisUtil.sMembers(switchClass(classNum));
         ArrayList list = new ArrayList<>(set);
         map.put("stuList",list);
-        return "/student";
+        return "student";
     }
 
     @PostMapping("/selClass")
