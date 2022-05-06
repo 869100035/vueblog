@@ -5,7 +5,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -236,6 +238,46 @@ public class RedisUtil {
      */
     public double hdecr(String key, String item, double by) {
         return redisTemplate.opsForHash().increment(key, item, -by);
+    }
+
+    /**
+     * set增加
+     *
+     * @param key  键
+     */
+    public double sadd(String key, String... value) {
+        return redisTemplate.opsForSet().add(key,value);
+    }
+
+    /**
+     * set删除
+     *
+     * @param key  键
+     */
+    public double sdel(String key, String... value) {
+        return redisTemplate.opsForSet().remove(key,value);
+    }
+
+    /**
+     * set随机
+     *
+     * @param key  键
+     * @return
+     */
+    public List sRandomMembers(String key, long count) {
+        return redisTemplate.opsForSet().randomMembers(key,count);
+    }
+
+
+    /**
+     * set列表返回
+     *
+     * @param key  键
+     * @return
+     */
+    public Set sMembers(String key) {
+
+        return redisTemplate.opsForSet().members(key);
     }
 
 }
