@@ -144,6 +144,7 @@
     <input type="text" id="rdmCount" th:placeholder="随机数量，默认1"/>
     <div></div>
     <input type="button" id="rdmStu" onclick="rdm()" value="随机点名"/>
+    <input type="button" id="delHis" onclick="delHis()" value="重置"/>
 
     <div id="rdmList"></div>
 
@@ -206,12 +207,24 @@
         $.post("/stu/rdmStu",{"rdmCount":rdmCount,"classNum":classNum},function (list) {
             $.each(list,function (index,nm) {
                 str += "<div class='rsList'>" + nm + "</div>";
-                nmSpan = "<div>"+nm+"——"+nowTime+"</div>"
+                nmSpan += "<div>"+nm+"——"+nowTime+"</div>"
             })
             rdmList.append(str)
             hisList.prepend(nmSpan);
 
 
+        })
+    }
+
+    function delHis(){
+        $.post("/stu/delHis",{},function (data) {
+            var hisList = $("#hisList");
+            hisList.empty();
+            var rdmList = $("#rdmList");
+            rdmList.empty();
+            if (data == "1"){
+                //alert("重置成功")
+            }
         })
     }
     function forDel(delBtn){

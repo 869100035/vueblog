@@ -25,6 +25,8 @@ public class RandomNameController {
     private final static String rdmNmKey1 = "random:name:key1";
     private final static String rdmNmKey2 = "random:name:key2";
 
+    private final static String hisKey = "his:name";
+
     @PostMapping("/addStu")
     @ResponseBody
     public String addStudent(String stuNm,String classNum){
@@ -43,13 +45,31 @@ public class RandomNameController {
         return "1";
     }
 
+    @PostMapping("/delHis")
+    @ResponseBody
+    public String delHis(String name,String classNum){
+        redisUtil.del(hisKey);
+        return "1";
+    }
+
     @PostMapping("/rdmStu")
     @ResponseBody
     public List rdmStudent(String rdmCount,String classNum){
         if (StringUtils.isBlank(rdmCount)){
             rdmCount = "1";
         }
-        List list = redisUtil.sRandomMembers(switchClass(classNum), Long.valueOf(rdmCount));
+        List<Object> list = new ArrayList<>();
+        int count = Integer.valueOf(rdmCount);
+        while (list.size() < count && redisUtil.size(hisKey) < redisUtil.size(switchClass(classNum))){
+            Object obj = redisUtil.sRandomMember(switchClass(classNum));
+            if (!redisUtil.sIsMember(hisKey,obj)){
+                list.add(obj);
+                redisUtil.sadd(hisKey,obj);
+                if (redisUtil.size(hisKey) == 1){
+                    redisUtil.expire(hisKey,300);
+                }
+            }
+        }
         return list;
     }
 

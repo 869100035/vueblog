@@ -245,7 +245,7 @@ public class RedisUtil {
      *
      * @param key  键
      */
-    public double sadd(String key, String... value) {
+    public double sadd(String key, Object... value) {
         return redisTemplate.opsForSet().add(key,value);
     }
 
@@ -268,6 +268,16 @@ public class RedisUtil {
         return redisTemplate.opsForSet().randomMembers(key,count);
     }
 
+    /**
+     * set随机
+     *
+     * @param key  键
+     * @return
+     */
+    public Object sRandomMember(String key) {
+        return redisTemplate.opsForSet().randomMember(key);
+    }
+
 
     /**
      * set列表返回
@@ -278,6 +288,26 @@ public class RedisUtil {
     public Set sMembers(String key) {
 
         return redisTemplate.opsForSet().members(key);
+    }
+
+    /**
+     * set是否成员
+     *
+     * @param key  键
+     * @return
+     */
+    public boolean sIsMember(String key,Object object) {
+        return redisTemplate.opsForSet().isMember(key,object);
+    }
+
+    /**
+     * set数量
+     *
+     * @param key  键
+     * @return
+     */
+    public long size(String key) {
+        return redisTemplate.opsForSet().size(key);
     }
 
 }
